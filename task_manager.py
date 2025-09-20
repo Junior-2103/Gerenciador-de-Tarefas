@@ -44,15 +44,16 @@ class TaskManager:
             raise TypeError(f'Tipo de valor inválido: "{type(status)}", tipo do valor esperado: "str"')
         # * --------------------------------------------------------------------------------------------
         non_task_id = []
-        for i,task in enumerate(self.tasks):
+        index_del_task = None
+        for task in self.tasks:
             if task['id'] == task_id:
-                del self.tasks[i]
+                index_del_task = self.tasks.index(task)
                 break
             else:
                 non_task_id.append(task)
-
         if len(non_task_id) == len(self.tasks):
             raise ValueError('ID da task não encontrado, ou inválido')
+        self.tasks.pop(index_del_task)
         save_data(self.tasks,self.file_json)
     
     def list_tasks(self,status:Literal['todos','pendente','em_progresso','concluido'] = 'todos'):
